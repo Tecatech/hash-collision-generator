@@ -80,10 +80,10 @@ func searchColl(c []pair, coll pair) int {
     return slices.IndexFunc(c, func(p pair) bool { return deepEqual(p, coll) })
 }
 
-func writeBytes(file string, sc [][]pair) {
+func writeBytes(filePath string, sc [][]pair) {
     const low = 15
     
-    fo, err := os.Create(file)
+    fo, err := os.Create(filePath)
     if err != nil {
         panic(err)
     }

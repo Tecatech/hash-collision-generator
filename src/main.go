@@ -2,14 +2,19 @@ package main
 
 import (
     "fmt"
+    "path/filepath"
 )
 
 func main() {
     fmt.Println("Birthday paradox attack:")
+    
     sc := birthdayParadoxWrapper()
-    writeBytes("birthdayParadox.txt", sc)
+    filePath, _ := filepath.Abs("../data/birthdayParadox.txt")
+    writeBytes(filePath, sc)
     
     fmt.Println("Pollard rho algorithm:")
+    
     sc = rhoPollardWrapper()
-    writeBytes("rhoPollard.txt", sc)
+    filePath, _ = filepath.Abs("../data/rhoPollard.txt")
+    writeBytes(filePath, sc)
 }

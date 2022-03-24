@@ -8,50 +8,44 @@ import (
 )
 
 func rhoPollard(s []node, y0 []byte, nBits, q int) pair {
-    const maxLoops = 10000
-    
     yi := y0
     iter := 0
     
     coll := nilPair()
     
     for coll.isEqual() {
-        for nLoops := 0; nLoops < maxLoops; nLoops++ {
+        for leadingZeros(yi) != q {
             yi = padZeros(shaXX(yi, nBits))
             iter += 1
         }
         
-        if leadingZeros(yi) == q {
-            if ind := searchNode(s, yi); ind != -1 {
-                n := s[ind]
-                
-                y := y0
-                z := n.z
-                
-                d := int(math.Abs(float64(iter - n.j)))
-                
-                if iter > n.j {
-                    for i := 0; i < d; i++ {
-                        y = padZeros(shaXX(y, nBits))
-                    }
-                } else {
-                    for i := 0; i < d; i++ {
-                        z = padZeros(shaXX(z, nBits))
-                    }
-                }
-                
-                for shaXX(y, nBits).ToUint64() != shaXX(z, nBits).ToUint64() {
+        if ind := searchNode(s, yi); ind != -1 {
+            n := s[ind]
+            
+            y := y0
+            z := n.z
+            
+            d := int(math.Abs(float64(iter - n.j)))
+            
+            if iter > n.j {
+                for i := 0; i < d; i++ {
                     y = padZeros(shaXX(y, nBits))
+                }
+            } else {
+                for i := 0; i < d; i++ {
                     z = padZeros(shaXX(z, nBits))
                 }
-                
-                coll = makePair(y, z)
             }
             
-            s = append(s, makeNode(yi, y0, iter))
-        } else {
-            break
+            for shaXX(y, nBits).ToUint64() != shaXX(z, nBits).ToUint64() {
+                y = padZeros(shaXX(y, nBits))
+                z = padZeros(shaXX(z, nBits))
+            }
+            
+            coll = makePair(y, z)
         }
+        
+        s = append(s, makeNode(yi, y0, iter))
     }
     
     return coll

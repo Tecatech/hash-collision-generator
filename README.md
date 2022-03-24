@@ -29,4 +29,5 @@ Pollard rho algorithm:
 2022/03/23 15:27:40 [SHA19] time: 9m48.9932266s
 2022/03/23 15:37:28 [SHA20] alloc: 4427 KiB
 2022/03/23 15:37:28 [SHA20] time: 14m25.681136s
+$ go clean
 ```
